@@ -1,0 +1,355 @@
+Terminals unused in grammar
+
+   EQUALS
+
+
+Grammar
+
+    0 $accept: input "end of file"
+
+    1 input: slist
+
+    2 slist: state
+    3      | state slist
+
+    4 state: STRING LPAREN RPAREN
+    5      | STRING LPAREN propositions RPAREN
+    6      | STRING LPAREN RPAREN transitions
+    7      | STRING LPAREN propositions RPAREN transitions
+
+    8 transitions: LPAREN expr RPAREN STRING
+    9            | LPAREN expr RPAREN STRING transitions
+
+   10 propositions: STRING
+   11             | STRING propositions
+
+   12 prod: INT
+   13     | INT prod
+
+   14 term: STRING
+   15     | prod
+   16     | prod STRING
+   17     | STRING prod
+   18     | prod STRING prod
+
+   19 expr: term
+   20     | term ADD expr
+
+
+Terminals, with rules where they appear
+
+"end of file" (0) 0
+error (256)
+EQUALS (258)
+ADD (259) 20
+INT (260) 12 13
+STRING (261) 4 5 6 7 8 9 10 11 14 16 17 18
+LPAREN (262) 4 5 6 7 8 9
+RPAREN (263) 4 5 6 7 8 9
+
+
+Nonterminals, with rules where they appear
+
+$accept (9)
+    on left: 0
+input (10)
+    on left: 1, on right: 0
+slist (11)
+    on left: 2 3, on right: 1 3
+state (12)
+    on left: 4 5 6 7, on right: 2 3
+transitions (13)
+    on left: 8 9, on right: 6 7 9
+propositions (14)
+    on left: 10 11, on right: 5 7 11
+prod (15)
+    on left: 12 13, on right: 13 15 16 17 18
+term (16)
+    on left: 14 15 16 17 18, on right: 19 20
+expr (17)
+    on left: 19 20, on right: 8 9 20
+
+
+State 0
+
+    0 $accept: . input "end of file"
+
+    STRING  shift, and go to state 1
+
+    input  go to state 2
+    slist  go to state 3
+    state  go to state 4
+
+
+State 1
+
+    4 state: STRING . LPAREN RPAREN
+    5      | STRING . LPAREN propositions RPAREN
+    6      | STRING . LPAREN RPAREN transitions
+    7      | STRING . LPAREN propositions RPAREN transitions
+
+    LPAREN  shift, and go to state 5
+
+
+State 2
+
+    0 $accept: input . "end of file"
+
+    "end of file"  shift, and go to state 6
+
+
+State 3
+
+    1 input: slist .
+
+    $default  reduce using rule 1 (input)
+
+
+State 4
+
+    2 slist: state .
+    3      | state . slist
+
+    STRING  shift, and go to state 1
+
+    $default  reduce using rule 2 (slist)
+
+    slist  go to state 7
+    state  go to state 4
+
+
+State 5
+
+    4 state: STRING LPAREN . RPAREN
+    5      | STRING LPAREN . propositions RPAREN
+    6      | STRING LPAREN . RPAREN transitions
+    7      | STRING LPAREN . propositions RPAREN transitions
+
+    STRING  shift, and go to state 8
+    RPAREN  shift, and go to state 9
+
+    propositions  go to state 10
+
+
+State 6
+
+    0 $accept: input "end of file" .
+
+    $default  accept
+
+
+State 7
+
+    3 slist: state slist .
+
+    $default  reduce using rule 3 (slist)
+
+
+State 8
+
+   10 propositions: STRING .
+   11             | STRING . propositions
+
+    STRING  shift, and go to state 8
+
+    $default  reduce using rule 10 (propositions)
+
+    propositions  go to state 11
+
+
+State 9
+
+    4 state: STRING LPAREN RPAREN .
+    6      | STRING LPAREN RPAREN . transitions
+
+    LPAREN  shift, and go to state 12
+
+    $default  reduce using rule 4 (state)
+
+    transitions  go to state 13
+
+
+State 10
+
+    5 state: STRING LPAREN propositions . RPAREN
+    7      | STRING LPAREN propositions . RPAREN transitions
+
+    RPAREN  shift, and go to state 14
+
+
+State 11
+
+   11 propositions: STRING propositions .
+
+    $default  reduce using rule 11 (propositions)
+
+
+State 12
+
+    8 transitions: LPAREN . expr RPAREN STRING
+    9            | LPAREN . expr RPAREN STRING transitions
+
+    INT     shift, and go to state 15
+    STRING  shift, and go to state 16
+
+    prod  go to state 17
+    term  go to state 18
+    expr  go to state 19
+
+
+State 13
+
+    6 state: STRING LPAREN RPAREN transitions .
+
+    $default  reduce using rule 6 (state)
+
+
+State 14
+
+    5 state: STRING LPAREN propositions RPAREN .
+    7      | STRING LPAREN propositions RPAREN . transitions
+
+    LPAREN  shift, and go to state 12
+
+    $default  reduce using rule 5 (state)
+
+    transitions  go to state 20
+
+
+State 15
+
+   12 prod: INT .
+   13     | INT . prod
+
+    INT  shift, and go to state 15
+
+    $default  reduce using rule 12 (prod)
+
+    prod  go to state 21
+
+
+State 16
+
+   14 term: STRING .
+   17     | STRING . prod
+
+    INT  shift, and go to state 15
+
+    $default  reduce using rule 14 (term)
+
+    prod  go to state 22
+
+
+State 17
+
+   15 term: prod .
+   16     | prod . STRING
+   18     | prod . STRING prod
+
+    STRING  shift, and go to state 23
+
+    $default  reduce using rule 15 (term)
+
+
+State 18
+
+   19 expr: term .
+   20     | term . ADD expr
+
+    ADD  shift, and go to state 24
+
+    $default  reduce using rule 19 (expr)
+
+
+State 19
+
+    8 transitions: LPAREN expr . RPAREN STRING
+    9            | LPAREN expr . RPAREN STRING transitions
+
+    RPAREN  shift, and go to state 25
+
+
+State 20
+
+    7 state: STRING LPAREN propositions RPAREN transitions .
+
+    $default  reduce using rule 7 (state)
+
+
+State 21
+
+   13 prod: INT prod .
+
+    $default  reduce using rule 13 (prod)
+
+
+State 22
+
+   17 term: STRING prod .
+
+    $default  reduce using rule 17 (term)
+
+
+State 23
+
+   16 term: prod STRING .
+   18     | prod STRING . prod
+
+    INT  shift, and go to state 15
+
+    $default  reduce using rule 16 (term)
+
+    prod  go to state 26
+
+
+State 24
+
+   20 expr: term ADD . expr
+
+    INT     shift, and go to state 15
+    STRING  shift, and go to state 16
+
+    prod  go to state 17
+    term  go to state 18
+    expr  go to state 27
+
+
+State 25
+
+    8 transitions: LPAREN expr RPAREN . STRING
+    9            | LPAREN expr RPAREN . STRING transitions
+
+    STRING  shift, and go to state 28
+
+
+State 26
+
+   18 term: prod STRING prod .
+
+    $default  reduce using rule 18 (term)
+
+
+State 27
+
+   20 expr: term ADD expr .
+
+    $default  reduce using rule 20 (expr)
+
+
+State 28
+
+    8 transitions: LPAREN expr RPAREN STRING .
+    9            | LPAREN expr RPAREN STRING . transitions
+
+    LPAREN  shift, and go to state 12
+
+    $default  reduce using rule 8 (transitions)
+
+    transitions  go to state 29
+
+
+State 29
+
+    9 transitions: LPAREN expr RPAREN STRING transitions .
+
+    $default  reduce using rule 9 (transitions)

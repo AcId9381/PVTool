@@ -1,0 +1,439 @@
+Terminals unused in grammar
+
+   "addition"
+
+
+Grammar
+
+    0 $accept: input "end of file"
+
+    1 input: sformula
+
+    2 sformula: "true"
+    3         | "false"
+    4         | "string"
+    5         | "negation" sformula
+    6         | sformula "conjunction" sformula
+    7         | sformula "disjunction" sformula
+    8         | "existential quantification" pformula
+    9         | "universal quantification" pformula
+   10         | "left parentheses" sformula "right parentheses"
+
+   11 pformula: "next" bound sformula
+   12         | sformula "until" bound sformula
+   13         | "left parentheses" pformula "right parentheses"
+
+   14 bound: "left bracket" "double" "right bracket"
+   15      | "left bracket" "integer" "right bracket"
+
+
+Terminals, with rules where they appear
+
+"end of file" (0) 0
+error (256)
+"true" (258) 2
+"false" (259) 3
+"negation" (260) 5
+"conjunction" (261) 6
+"disjunction" (262) 7
+"existential quantification" (263) 8
+"universal quantification" (264) 9
+"next" (265) 11
+"until" (266) 12
+"string" (267) 4
+"left parentheses" (268) 10 13
+"right parentheses" (269) 10 13
+"left bracket" (270) 14 15
+"right bracket" (271) 14 15
+"integer" (272) 15
+"double" (273) 14
+"addition" (274)
+
+
+Nonterminals, with rules where they appear
+
+$accept (20)
+    on left: 0
+input (21)
+    on left: 1, on right: 0
+sformula (22)
+    on left: 2 3 4 5 6 7 8 9 10, on right: 1 5 6 7 10 11 12
+pformula (23)
+    on left: 11 12 13, on right: 8 9 13
+bound (24)
+    on left: 14 15, on right: 11 12
+
+
+State 0
+
+    0 $accept: . input "end of file"
+
+    "true"                        shift, and go to state 1
+    "false"                       shift, and go to state 2
+    "negation"                    shift, and go to state 3
+    "existential quantification"  shift, and go to state 4
+    "universal quantification"    shift, and go to state 5
+    "string"                      shift, and go to state 6
+    "left parentheses"            shift, and go to state 7
+
+    input     go to state 8
+    sformula  go to state 9
+
+
+State 1
+
+    2 sformula: "true" .
+
+    $default  reduce using rule 2 (sformula)
+
+
+State 2
+
+    3 sformula: "false" .
+
+    $default  reduce using rule 3 (sformula)
+
+
+State 3
+
+    5 sformula: "negation" . sformula
+
+    "true"                        shift, and go to state 1
+    "false"                       shift, and go to state 2
+    "negation"                    shift, and go to state 3
+    "existential quantification"  shift, and go to state 4
+    "universal quantification"    shift, and go to state 5
+    "string"                      shift, and go to state 6
+    "left parentheses"            shift, and go to state 7
+
+    sformula  go to state 10
+
+
+State 4
+
+    8 sformula: "existential quantification" . pformula
+
+    "true"                        shift, and go to state 1
+    "false"                       shift, and go to state 2
+    "negation"                    shift, and go to state 3
+    "existential quantification"  shift, and go to state 4
+    "universal quantification"    shift, and go to state 5
+    "next"                        shift, and go to state 11
+    "string"                      shift, and go to state 6
+    "left parentheses"            shift, and go to state 12
+
+    sformula  go to state 13
+    pformula  go to state 14
+
+
+State 5
+
+    9 sformula: "universal quantification" . pformula
+
+    "true"                        shift, and go to state 1
+    "false"                       shift, and go to state 2
+    "negation"                    shift, and go to state 3
+    "existential quantification"  shift, and go to state 4
+    "universal quantification"    shift, and go to state 5
+    "next"                        shift, and go to state 11
+    "string"                      shift, and go to state 6
+    "left parentheses"            shift, and go to state 12
+
+    sformula  go to state 13
+    pformula  go to state 15
+
+
+State 6
+
+    4 sformula: "string" .
+
+    $default  reduce using rule 4 (sformula)
+
+
+State 7
+
+   10 sformula: "left parentheses" . sformula "right parentheses"
+
+    "true"                        shift, and go to state 1
+    "false"                       shift, and go to state 2
+    "negation"                    shift, and go to state 3
+    "existential quantification"  shift, and go to state 4
+    "universal quantification"    shift, and go to state 5
+    "string"                      shift, and go to state 6
+    "left parentheses"            shift, and go to state 7
+
+    sformula  go to state 16
+
+
+State 8
+
+    0 $accept: input . "end of file"
+
+    "end of file"  shift, and go to state 17
+
+
+State 9
+
+    1 input: sformula .
+    6 sformula: sformula . "conjunction" sformula
+    7         | sformula . "disjunction" sformula
+
+    "conjunction"  shift, and go to state 18
+    "disjunction"  shift, and go to state 19
+
+    $default  reduce using rule 1 (input)
+
+
+State 10
+
+    5 sformula: "negation" sformula .
+    6         | sformula . "conjunction" sformula
+    7         | sformula . "disjunction" sformula
+
+    $default  reduce using rule 5 (sformula)
+
+
+State 11
+
+   11 pformula: "next" . bound sformula
+
+    "left bracket"  shift, and go to state 20
+
+    bound  go to state 21
+
+
+State 12
+
+   10 sformula: "left parentheses" . sformula "right parentheses"
+   13 pformula: "left parentheses" . pformula "right parentheses"
+
+    "true"                        shift, and go to state 1
+    "false"                       shift, and go to state 2
+    "negation"                    shift, and go to state 3
+    "existential quantification"  shift, and go to state 4
+    "universal quantification"    shift, and go to state 5
+    "next"                        shift, and go to state 11
+    "string"                      shift, and go to state 6
+    "left parentheses"            shift, and go to state 12
+
+    sformula  go to state 22
+    pformula  go to state 23
+
+
+State 13
+
+    6 sformula: sformula . "conjunction" sformula
+    7         | sformula . "disjunction" sformula
+   12 pformula: sformula . "until" bound sformula
+
+    "conjunction"  shift, and go to state 18
+    "disjunction"  shift, and go to state 19
+    "until"        shift, and go to state 24
+
+
+State 14
+
+    8 sformula: "existential quantification" pformula .
+
+    $default  reduce using rule 8 (sformula)
+
+
+State 15
+
+    9 sformula: "universal quantification" pformula .
+
+    $default  reduce using rule 9 (sformula)
+
+
+State 16
+
+    6 sformula: sformula . "conjunction" sformula
+    7         | sformula . "disjunction" sformula
+   10         | "left parentheses" sformula . "right parentheses"
+
+    "conjunction"        shift, and go to state 18
+    "disjunction"        shift, and go to state 19
+    "right parentheses"  shift, and go to state 25
+
+
+State 17
+
+    0 $accept: input "end of file" .
+
+    $default  accept
+
+
+State 18
+
+    6 sformula: sformula "conjunction" . sformula
+
+    "true"                        shift, and go to state 1
+    "false"                       shift, and go to state 2
+    "negation"                    shift, and go to state 3
+    "existential quantification"  shift, and go to state 4
+    "universal quantification"    shift, and go to state 5
+    "string"                      shift, and go to state 6
+    "left parentheses"            shift, and go to state 7
+
+    sformula  go to state 26
+
+
+State 19
+
+    7 sformula: sformula "disjunction" . sformula
+
+    "true"                        shift, and go to state 1
+    "false"                       shift, and go to state 2
+    "negation"                    shift, and go to state 3
+    "existential quantification"  shift, and go to state 4
+    "universal quantification"    shift, and go to state 5
+    "string"                      shift, and go to state 6
+    "left parentheses"            shift, and go to state 7
+
+    sformula  go to state 27
+
+
+State 20
+
+   14 bound: "left bracket" . "double" "right bracket"
+   15      | "left bracket" . "integer" "right bracket"
+
+    "integer"  shift, and go to state 28
+    "double"   shift, and go to state 29
+
+
+State 21
+
+   11 pformula: "next" bound . sformula
+
+    "true"                        shift, and go to state 1
+    "false"                       shift, and go to state 2
+    "negation"                    shift, and go to state 3
+    "existential quantification"  shift, and go to state 4
+    "universal quantification"    shift, and go to state 5
+    "string"                      shift, and go to state 6
+    "left parentheses"            shift, and go to state 7
+
+    sformula  go to state 30
+
+
+State 22
+
+    6 sformula: sformula . "conjunction" sformula
+    7         | sformula . "disjunction" sformula
+   10         | "left parentheses" sformula . "right parentheses"
+   12 pformula: sformula . "until" bound sformula
+
+    "conjunction"        shift, and go to state 18
+    "disjunction"        shift, and go to state 19
+    "until"              shift, and go to state 24
+    "right parentheses"  shift, and go to state 25
+
+
+State 23
+
+   13 pformula: "left parentheses" pformula . "right parentheses"
+
+    "right parentheses"  shift, and go to state 31
+
+
+State 24
+
+   12 pformula: sformula "until" . bound sformula
+
+    "left bracket"  shift, and go to state 20
+
+    bound  go to state 32
+
+
+State 25
+
+   10 sformula: "left parentheses" sformula "right parentheses" .
+
+    $default  reduce using rule 10 (sformula)
+
+
+State 26
+
+    6 sformula: sformula . "conjunction" sformula
+    6         | sformula "conjunction" sformula .
+    7         | sformula . "disjunction" sformula
+
+    $default  reduce using rule 6 (sformula)
+
+
+State 27
+
+    6 sformula: sformula . "conjunction" sformula
+    7         | sformula . "disjunction" sformula
+    7         | sformula "disjunction" sformula .
+
+    $default  reduce using rule 7 (sformula)
+
+
+State 28
+
+   15 bound: "left bracket" "integer" . "right bracket"
+
+    "right bracket"  shift, and go to state 33
+
+
+State 29
+
+   14 bound: "left bracket" "double" . "right bracket"
+
+    "right bracket"  shift, and go to state 34
+
+
+State 30
+
+    6 sformula: sformula . "conjunction" sformula
+    7         | sformula . "disjunction" sformula
+   11 pformula: "next" bound sformula .
+
+    $default  reduce using rule 11 (pformula)
+
+
+State 31
+
+   13 pformula: "left parentheses" pformula "right parentheses" .
+
+    $default  reduce using rule 13 (pformula)
+
+
+State 32
+
+   12 pformula: sformula "until" bound . sformula
+
+    "true"                        shift, and go to state 1
+    "false"                       shift, and go to state 2
+    "negation"                    shift, and go to state 3
+    "existential quantification"  shift, and go to state 4
+    "universal quantification"    shift, and go to state 5
+    "string"                      shift, and go to state 6
+    "left parentheses"            shift, and go to state 7
+
+    sformula  go to state 35
+
+
+State 33
+
+   15 bound: "left bracket" "integer" "right bracket" .
+
+    $default  reduce using rule 15 (bound)
+
+
+State 34
+
+   14 bound: "left bracket" "double" "right bracket" .
+
+    $default  reduce using rule 14 (bound)
+
+
+State 35
+
+    6 sformula: sformula . "conjunction" sformula
+    7         | sformula . "disjunction" sformula
+   12 pformula: sformula "until" bound sformula .
+
+    $default  reduce using rule 12 (pformula)
